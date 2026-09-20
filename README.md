@@ -1,11 +1,14 @@
-#EE2120 mini project - Node 1
-SCADA Communication and Data Plan setup
-Ref_Temp,LM35_Temp,DS18B20_Temp
-20.0,21.2,20.3
-25.0,26.0,25.2
-30.0,31.5,30.1
-35.0,36.2,35.4
-40.0,41.8,40.2
-45.0,46.5,45.3
-50.0,51.9,50.4
+# EE2120: IoT-Based Distributed Spatial Temperature Monitoring System
 
+![Project Status](https://img.shields.io/badge/Status-Completed-success)
+![Course](https://img.shields.io/badge/Course-EE2120_IoT-blue)
+![University](https://img.shields.io/badge/University-Peradeniya-orange)
+
+## 📌 Project Overview
+This repository contains the full implementation of an end-to-end IoT system designed for real-time temperature data acquisition, multi-sensor fusion, GPS positioning, and spatial interpolation using Inverse Distance Weighting (IDW).
+
+The system integrates ESP32 microcontrollers, MQTT protocol (Mosquitto), Node-RED dashboards, Python analytics scripts, and Git for version control.
+
+---
+
+## 🛠️ System Architecture & Workflow

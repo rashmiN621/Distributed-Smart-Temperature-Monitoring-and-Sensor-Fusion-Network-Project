@@ -12,8 +12,11 @@ CSV_FILE = "sensor_data_log.csv"
 W_LM35 = 0.3
 W_DS18B20 = 0.7
 
+# Simulated GPS Coordinates (UoP EEE Dept Location)
+SIMULATED_LAT = 7.2543
+SIMULATED_LON = 80.5917
+
 def calculate_sensor_fusion(lm35, ds18b20):
-    # Weighted Average Sensor Fusion Calculation
     fused_temp = (W_LM35 * lm35) + (W_DS18B20 * ds18b20)
     return round(fused_temp, 2)
 
@@ -26,27 +29,32 @@ def on_message(client, userdata, msg):
         data = json.loads(msg.payload.decode('utf-8'))
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
-        node_id = data.get("node_id", "N/A")
+        node_id = data.get("node_id", "node1")
         lm35 = float(data.get("lm35_temp", 0.0))
         ds18b20 = float(data.get("ds18b20_temp", 0.0))
         
-        # Sensor Fusion උෂ්ණත්වය ගණනය කිරීම
+        # GPS readings (if not provided in payload)
+        lat = float(data.get("lat", SIMULATED_LAT))
+        lon = float(data.get("lon", SIMULATED_LON))
+        
+        # Calculate Sensor Fusion
         fused_temp = calculate_sensor_fusion(lm35, ds18b20)
         
-        print(f"[{timestamp}] Node: {node_id} | LM35: {lm35}°C | DS18B20: {ds18b20}°C | Fused Temp: {fused_temp}°C")
+        print(f"[{timestamp}] Node: {node_id} | GPS: ({lat}, {lon}) | LM35: {lm35}°C | DS18B20: {ds18b20}°C | Fused: {fused_temp}°C")
         
+        # Save to CSV including GPS Coordinates
         with open(CSV_FILE, mode='a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([timestamp, node_id, lm35, ds18b20, fused_temp])
+            writer.writerow([timestamp, node_id, lat, lon, lm35, ds18b20, fused_temp])
             
     except Exception as e:
         print("Error parsing payload:", e)
 
-# CSV Header එක සකස් කිරීම
+# Setup CSV Header with GPS fields
 try:
     with open(CSV_FILE, mode='x', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["Timestamp", "Node_ID", "LM35_Temp", "DS18B20_Temp", "Fused_Temp"])
+        writer.writerow(["Timestamp", "Node_ID", "Latitude", "Longitude", "LM35_Temp", "DS18B20_Temp", "Fused_Temp"])
 except FileExistsError:
     pass
 

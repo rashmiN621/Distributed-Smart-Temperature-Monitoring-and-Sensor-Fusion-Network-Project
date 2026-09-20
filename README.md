@@ -80,5 +80,5 @@ python day4_spatial_estimation.py
 ---
 
 ## 🎓 Course Details
-* Course Code: EE2120 - Internet of Things (IoT)
-* Institution: Department of Electrical & Electronic Engineering, University of Peradeniya
+* EE2120 - Measurement and Instrumentation
+* Department of Electrical & Electronic Engineering, University of Peradeniya
